@@ -9,67 +9,131 @@ import java.util.NoSuchElementException;
     
 //TODO: implement.
 public class BaseDeque<Item> implements Deque<Item> {
-
-    /**
-     * Program entry point for deque. 
-     * @param args command line arguments
-     */    
-
+	private Node<Item> head, tail;
+	private int count; 
+	
+	public BaseDeque() {
+		head = tail = null;
+		count = 0;
+	}
 
 	@Override
 	public void enqueueFront(Item element) {
 		// TODO Auto-generated method stub
+		Node<Item> temp = new Node<>(element);
 		
+		if (isEmpty())
+			head = tail = temp;
+		else {
+			temp.setNext(head);
+			head.setPrev(temp);
+			head = temp;
+		}
+		
+		count++;
 	}
 
 	@Override
 	public void enqueueBack(Item element) {
 		// TODO Auto-generated method stub
+		Node<Item> temp = new Node<>(element);
 		
+		if (isEmpty())
+			head = tail = temp;
+		else {
+			tail.setNext(temp);
+			temp.setPrev(tail);
+			tail = temp;
+		}
+		
+		count++;
 	}
 
 	@Override
 	public Item dequeueFront() throws NoSuchElementException {
 		// TODO Auto-generated method stub
-		return null;
+		if(head == null)
+			throw new NoSuchElementException("The queue is empty.");
+		else {
+			Node<Item> temp = head;
+			
+			head = head.getNext();
+			head.setPrev(null);
+			
+			count--;
+			
+			return temp.getElement();
+		}
 	}
 
 	@Override
 	public Item dequeueBack() throws NoSuchElementException {
 		// TODO Auto-generated method stub
-		return null;
+		if(tail == null)
+			throw new NoSuchElementException("The queue is empty.");
+		else {
+			Node<Item> temp = tail;
+			
+			tail = tail.getPrev();
+			tail.setNext(null);
+			
+			count--;
+			
+			return temp.getElement();
+		}
 	}
 
 	@Override
 	public Item first() throws NoSuchElementException {
 		// TODO Auto-generated method stub
-		return null;
+		if (head == null) 
+			throw new NoSuchElementException("The queue is empty."); 
+		else
+			return head.getElement();
 	}
 
 	@Override
 	public Item last() throws NoSuchElementException {
 		// TODO Auto-generated method stub
-		return null;
+		if(tail == null)
+			throw new NoSuchElementException("The queue is empty.");
+		else
+			return tail.getElement();
 	}
 
 	@Override
 	public boolean isEmpty() {
 		// TODO Auto-generated method stub
-		return false;
+		return count == 0;
 	}
 
 	@Override
 	public int size() {
 		// TODO Auto-generated method stub
-		return 0;
+		return count;
 	}
 
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return null;
+		if(isEmpty())
+			return null;
+		else {
+			String result = "";
+			Node<Item> temp = tail; 
+			while (temp != null) {
+				result += temp.getElement() + " ";
+				temp = temp.getPrev();
+			}
+			
+			return result;
+		}
 	}
 	
+    /**
+     * Program entry point for deque. 
+     * @param args command line arguments
+     */    
     public static void main(String[] args) {
         BaseDeque<Integer> deque = new BaseDeque<>();
 
