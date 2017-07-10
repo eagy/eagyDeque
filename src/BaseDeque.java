@@ -14,6 +14,7 @@ public class BaseDeque<Item> implements Deque<Item> {
 	
 	public BaseDeque() {
 		head = tail = null;
+		
 		count = 0;
 	}
 
@@ -24,6 +25,10 @@ public class BaseDeque<Item> implements Deque<Item> {
 		
 		if (isEmpty())
 			head = tail = temp;
+		else if (head == tail) {
+			head.setNext(tail);
+			tail = temp;
+		}
 		else {
 			tail.setNext(temp);
 			tail = temp;
@@ -39,6 +44,10 @@ public class BaseDeque<Item> implements Deque<Item> {
 		
 		if (isEmpty())
 			head = tail = temp;
+		else if (head == tail) {
+			head = temp;
+			head.setNext(tail);
+		}
 		else {
 			temp.setNext(head);
 			head = temp;
@@ -50,8 +59,16 @@ public class BaseDeque<Item> implements Deque<Item> {
 	@Override
 	public Item dequeueFront() throws NoSuchElementException {
 		// TODO Auto-generated method stub
-		if(tail == null)
+		if(isEmpty())
 			throw new NoSuchElementException("The queue is empty.");
+		else if (head == tail) {
+			Node<Item> temp = tail;
+			head = tail = null;
+			
+			count--; 
+			
+			return temp.getElement();
+		} 
 		else {
 			Node<Item> temp = head;
 			Node<Item> result = tail;
@@ -73,8 +90,16 @@ public class BaseDeque<Item> implements Deque<Item> {
 	@Override
 	public Item dequeueBack() throws NoSuchElementException {
 		// TODO Auto-generated method stub
-		if(head == null)
+		if(isEmpty())
 			throw new NoSuchElementException("The queue is empty.");
+		else if(head == tail) {
+			Node<Item> temp = head;
+			head = tail = null;
+			
+			count--;
+			
+			return temp.getElement();
+		}
 		else {
 			Node<Item> temp = head;
 			
@@ -164,6 +189,54 @@ public class BaseDeque<Item> implements Deque<Item> {
         deque.dequeueFront();        
         System.out.println(deque.first());        
         System.out.println("size: " + deque.size());
-        System.out.println("contents:\n" + deque.toString());            
+        System.out.println("contents:\n" + deque.toString());  
+        
+        // My Tests
+        BaseDeque<Integer> myQueue = new BaseDeque<>();
+        
+        // Exception Handling
+        try {
+        	myQueue.dequeueFront();
+        }
+        catch(NoSuchElementException e) {
+        	System.out.println(e);
+        }
+        
+        try {
+        	myQueue.dequeueBack();
+        }
+        catch(NoSuchElementException e) {
+        	System.out.println(e);
+        }
+        
+        try {
+        	myQueue.first();
+        }
+        catch(NoSuchElementException e) {
+        	System.out.println(e);
+        }
+        
+        try {
+        	myQueue.last();
+        }
+        catch(NoSuchElementException e) {
+        	System.out.println(e);
+        }
+        
+        // Test DequeueBack (Size = 1)
+        myQueue.enqueueFront(1);
+        System.out.println(myQueue.dequeueBack());
+        
+        // Test DequeueFront (Size = 1)
+        myQueue.enqueueFront(2);
+        System.out.println(myQueue.dequeueFront());
+        
+     // Test DequeueBack (Size = 1)
+        myQueue.enqueueBack(3);
+        System.out.println(myQueue.dequeueBack());
+        
+        // Test DequeueFront (Size = 1)
+        myQueue.enqueueBack(4);
+        System.out.println(myQueue.dequeueFront());
     }
 } 
