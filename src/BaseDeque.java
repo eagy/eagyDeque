@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
     
 //TODO: implement.
 public class BaseDeque<Item> implements Deque<Item> {
-	private Node<Item> head, tail;
+	private DoubleNode<Item> head, tail;
 	private int count; 
 	
 	public BaseDeque() {
@@ -21,17 +21,20 @@ public class BaseDeque<Item> implements Deque<Item> {
 	@Override
 	public void enqueueFront(Item element) {
 		// TODO Auto-generated method stub
-		Node<Item> temp = new Node<>(element);
+		DoubleNode<Item> temp = new DoubleNode<>(element);
 		
 		if (isEmpty())
 			head = tail = temp;
 		else if (head == tail) {
 			head.setNext(tail);
 			tail = temp;
+			tail.setPrev(head);
 		}
 		else {
 			tail.setNext(temp);
+			temp.setPrev(tail);
 			tail = temp;
+			
 		}
 		
 		count++;
@@ -40,16 +43,18 @@ public class BaseDeque<Item> implements Deque<Item> {
 	@Override
 	public void enqueueBack(Item element) {
 		// TODO Auto-generated method stub
-		Node<Item> temp = new Node<>(element);
+		DoubleNode<Item> temp = new DoubleNode<>(element);
 		
 		if (isEmpty())
 			head = tail = temp;
 		else if (head == tail) {
+			head.setPrev(temp);
 			head = temp;
 			head.setNext(tail);
 		}
 		else {
 			temp.setNext(head);
+			head.setPrev(temp);
 			head = temp;
 		}
 		
@@ -62,7 +67,7 @@ public class BaseDeque<Item> implements Deque<Item> {
 		if(isEmpty())
 			throw new NoSuchElementException("The queue is empty.");
 		else if (head == tail) {
-			Node<Item> temp = tail;
+			DoubleNode<Item> temp = tail;
 			head = tail = null;
 			
 			count--; 
@@ -70,16 +75,10 @@ public class BaseDeque<Item> implements Deque<Item> {
 			return temp.getElement();
 		} 
 		else {
-			Node<Item> temp = head;
-			Node<Item> result = tail;
+			DoubleNode<Item> result = tail;
 			
-			while(temp.getNext() != tail) {
-				temp = temp.getNext();
-			}
-			
-			tail = temp;
+			tail = tail.getPrev();
 			tail.setNext(null);
-			
 			
 			count--;
 			
@@ -93,7 +92,7 @@ public class BaseDeque<Item> implements Deque<Item> {
 		if(isEmpty())
 			throw new NoSuchElementException("The queue is empty.");
 		else if(head == tail) {
-			Node<Item> temp = head;
+			DoubleNode<Item> temp = head;
 			head = tail = null;
 			
 			count--;
@@ -101,9 +100,10 @@ public class BaseDeque<Item> implements Deque<Item> {
 			return temp.getElement();
 		}
 		else {
-			Node<Item> temp = head;
+			DoubleNode<Item> temp = head;
 			
 			head = head.getNext();
+			head.setPrev(null);
 			
 			count--;
 			
@@ -148,7 +148,7 @@ public class BaseDeque<Item> implements Deque<Item> {
 			return null;
 		else {
 			String result = "";
-			Node<Item> temp = head; 
+			DoubleNode<Item> temp = head; 
 			while (temp != null) {
 				result += temp.getElement() + " ";
 				temp = temp.getNext();
