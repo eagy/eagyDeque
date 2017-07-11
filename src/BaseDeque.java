@@ -196,6 +196,9 @@ public class BaseDeque<Item> implements Deque<Item> {
         
         // Exception Handling
         try {
+        	System.out.println("Test Case 1:\tdequeue front empty queue");
+        	System.out.println("Expected:\tNoSuchElementException");
+        	System.out.print("Actual Result:\t");
         	myQueue.dequeueFront();
         }
         catch(NoSuchElementException e) {
@@ -203,6 +206,9 @@ public class BaseDeque<Item> implements Deque<Item> {
         }
         
         try {
+        	System.out.println("Test Case 2:\tdequeue back empty queue");
+        	System.out.println("Expected:\tNoSuchElementException");
+        	System.out.print("Actual Result:\t");
         	myQueue.dequeueBack();
         }
         catch(NoSuchElementException e) {
@@ -210,6 +216,9 @@ public class BaseDeque<Item> implements Deque<Item> {
         }
         
         try {
+        	System.out.println("Test Case 3:\tget first element empty queue");
+        	System.out.println("Expected:\tNoSuchElementException");
+        	System.out.print("Actual Result:\t");
         	myQueue.first();
         }
         catch(NoSuchElementException e) {
@@ -217,6 +226,9 @@ public class BaseDeque<Item> implements Deque<Item> {
         }
         
         try {
+        	System.out.println("Test Case 4:\tget last element empty queue");
+        	System.out.println("Expected:\tNoSuchElementException");
+        	System.out.print("Actual Result:\t");
         	myQueue.last();
         }
         catch(NoSuchElementException e) {
